@@ -84,7 +84,7 @@ h1.title {
     background-color: cornflowerblue;
 }
 
-@media all and (max-width: 768px) {
+@media all and (max-width: 1280px) {
     #toast-container {
         display: none;
     }
