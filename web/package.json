@@ -2,7 +2,7 @@
   "name": "arduino-power-dashboard",
   "version": "1.0.0",
   "description": "Dashboard web to monitor the power usage at my home",
-  "main": "index.js",
+  "main": "server.js",
   "dependencies": {
     "body-parser": "^1.12.4",
     "express": "^4.12.4",

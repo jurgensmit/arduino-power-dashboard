@@ -8,7 +8,7 @@ var express = require('express'),
     sql = require('mssql'),
     confidential = require('./confidential'),
     log = require('metalogger')(),
-    port = 5000;
+    port = process.env.PORT || 5000;
 
 var config = {
     user: confidential.databaseUserName,
