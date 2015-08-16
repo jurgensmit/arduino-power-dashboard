@@ -1,3 +1,4 @@
+/* global Highcharts */
 /* global toastr */
 (function () {
     "use strict";
@@ -281,11 +282,15 @@
     });
 
     dashboardApp.factory('barChartConfig', function () {
+        
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+
         var barChartConfig = {
             options: {
-                global: { 
-                    useUTC: false 
-                },
                 chart: {
                     type: 'spline',
                     backgroundColor: 'transparent',
@@ -309,12 +314,12 @@
                     }
                 },
                 tooltip: {
-                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                    pointFormat: '<tr>' +
-                        '<td style="padding:0"><b>{point.y} Watt Hour</b></td></tr>',
-                    footerFormat: '</table>',
+                    formatter: function () {
+                        return Highcharts.dateFormat('%Y-%m-%d %H:%M', this.x) + '<br/><b>' + this.y + ' Watt</b>';
+                    },
                     shared: true,
-                    useHTML: true
+                    useHTML: false,
+                    xDateFormat: '%Y-%m-%d'
                 }
             },
             series: [{
@@ -349,67 +354,6 @@
         }
     });
 
-    dashboardApp.directive("dashboardTile", function () {
-        return {
-            restrict: "E",
-            template: "<div class='tile {{tile.class}}' ng-click='toggleLed({ color: tile.class })'><h3 class='title'>{{tile.title}}</h3><p class='value'>&nbsp;{{tile.value}}{{tile.unit}}</p></div>",
-            replace: true,
-            scope: {
-                tile: "=",
-                toggleLed: "&"
-            }
-        };
-    });
-
-    dashboardApp.directive('tabs', function () {
-        return {
-            restrict: 'E',
-            transclude: true,
-            scope: {},
-            controller: ["$scope", function ($scope) {
-                var panes = $scope.panes = [];
-
-                $scope.select = function (pane) {
-                    angular.forEach(panes, function (pane) {
-                        pane.selected = false;
-                    });
-                    pane.selected = true;
-                }
-
-                this.addPane = function (pane) {
-                    if (panes.length == 0) $scope.select(pane);
-                    panes.push(pane);
-                }
-            }],
-            template:
-            '<div class="tabbable">' +
-            '<ul class="nav nav-tabs">' +
-            '<li ng-repeat="pane in panes" ng-class="{active:pane.selected}">' +
-            '<a href="" ng-click="select(pane)">{{pane.title}}</a>' +
-            '</li>' +
-            '</ul>' +
-            '<div class="tab-content" ng-transclude></div>' +
-            '</div>',
-            replace: true
-        };
-    });
-
-    dashboardApp.directive('pane', function () {
-        return {
-            require: '^tabs',
-            restrict: 'E',
-            transclude: true,
-            scope: { title: '@' },
-            link: function (scope, element, attrs, tabsCtrl) {
-                tabsCtrl.addPane(scope);
-            },
-            template:
-            '<div class="tab-pane" ng-class="{active: selected}" ng-transclude>' +
-            '</div>',
-            replace: true
-        };
-    });
-    
     toastr.options = {
         "positionClass": "toast-bottom-right"
     };
