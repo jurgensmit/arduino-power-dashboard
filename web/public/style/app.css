@@ -1,0 +1,95 @@
+body { 
+	background-color:lightgray;
+	background-color:white;
+    font-family: 'Ubuntu Mono', ;    
+}
+
+h1.title {
+	margin-top: 5px; 
+	text-align: center;	
+    margin-bottom: 5px;
+}
+
+.title { 
+	margin-top: 0px; 
+}
+
+.power-gauge {
+    height: 300px;
+}
+
+.meter-gauge {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.meter-spacer {
+    margin-top: 100px;
+}
+
+.meter-gauge span {
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+    padding-top: 1px;
+    padding-left: 4px;
+    padding-right: 4px;
+    line-height: 40px;
+    font-size: 40px;
+}
+
+.meter-gauge span.last-digit {
+    background-color: darkred;
+}
+
+.meter-gauge-label {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 25px;
+    color: gray;
+    text-align: center;	
+}
+
+/* 
+  Allow angular.js to be loaded in body, hiding cloaked elements until 
+  templates compile.  The !important is important given that there may be 
+  other selectors that are more specific or come later and might alter display.  
+ */
+[ng-cloak], .ng-cloak {
+  display: none !important;
+}
+
+.power-bar-chart {
+    margin-right: 1px;
+}
+
+.chart-selection-menu {
+    margin-left: 75px;
+}
+
+.nav-tabs>li>a, .nav-pills>li>a {
+    padding-right: 12px;
+    padding-left: 12px;
+    margin-right: 2px;
+    line-height: 13px;
+    padding-top: 3px;
+    padding-bottom: 4px;
+    outline: none;
+    color: gray;
+    background-color: transparent;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus>a:hover {
+    color: white;
+    background-color: cornflowerblue;
+}
+
+@media all and (max-width: 768px) {
+    #toast-container {
+        display: none;
+    }
+}
+
+#toast-container > .toast-info {
+  background-color: cornflowerblue !important;
+}
