@@ -1,13 +1,16 @@
 body { 
 	background-color:lightgray;
 	background-color:white;
-    font-family: 'Ubuntu Mono', ;    
+    font-family: 'Ubuntu Mono', Monaco, monospace;    
+/*
+    min-width: 400px;
+*/
 }
 
 h1.title {
-	margin-top: 5px; 
+	margin-top: 3px; 
 	text-align: center;	
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 }
 
 .title { 
@@ -15,16 +18,19 @@ h1.title {
 }
 
 .power-gauge {
-    height: 300px;
+    height: 270px;
 }
 
 .meter-gauge {
     text-align: center;
-    margin-top: 10px;
 }
 
 .meter-spacer {
-    margin-top: 100px;
+    padding-top: 35px;
+}
+
+.chart-spacer {
+    padding-top: 10px;
 }
 
 .meter-gauge span {
@@ -42,12 +48,20 @@ h1.title {
     background-color: darkred;
 }
 
-.meter-gauge-label {
-    margin-top: 5px;
-    margin-bottom: 10px;
-    font-size: 25px;
-    color: gray;
-    text-align: center;	
+.label-before {
+    color: gray !important;
+    background-color: transparent !important;
+    line-height: 40px;
+    font-size: 24px !important;
+    border: 0px !important;
+}
+
+.label-after {
+    color: gray !important;
+    background-color: transparent !important;
+    line-height: 40px;
+    font-size: 24px !important;
+    border: 0px !important;
 }
 
 /* 
@@ -64,13 +78,19 @@ h1.title {
 }
 
 .chart-selection-menu {
-    margin-left: 75px;
+    text-align: center;   
+}
+
+.nav-pills {
+/*
+    display: flex;
+    justify-content: center;
+*/
 }
 
 .nav-tabs>li>a, .nav-pills>li>a {
-    padding-right: 12px;
-    padding-left: 12px;
-    margin-right: 2px;
+    padding-right: 6px;
+    padding-left: 6px;
     line-height: 13px;
     padding-top: 3px;
     padding-bottom: 4px;
@@ -84,6 +104,22 @@ h1.title {
     background-color: cornflowerblue;
 }
 
+.centered-pills {  
+    text-align: center
+}
+.centered-pills ul.nav-pills {
+    display: inline-block
+}
+.centered-pills li {
+    display: inline
+}
+.centered-pills a {
+    float: left
+}
+* html .centered-pills ul.nav-pills, *+html .centered-pills ul.nav-pills {
+    display: inline
+}
+
 @media all and (max-width: 1280px) {
     #toast-container {
         display: none;
@@ -93,3 +129,4 @@ h1.title {
 #toast-container > .toast-info {
   background-color: cornflowerblue !important;
 }
+

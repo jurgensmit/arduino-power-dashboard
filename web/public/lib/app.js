@@ -8,7 +8,7 @@
         function ($scope, socket, powerGaugeConfig, barChartConfig) {
             var vm = this;
     
-            vm.meterValueAsString = "00000000";
+            vm.meterTotal = vm.meterToday = vm.meterYesterday = "00000000";
             vm.activeChart = "last24Hours";
             
             function zeroPad(num, places) {
@@ -41,8 +41,14 @@
 
             socket.on("summary", function (summaryData) {
                 showMessage("Summary data received");
+
                 var s = String(Math.round(summaryData[0].CalculatedMeterValue * 100));
-                vm.meterValueAsString = ("00000000" + s).substring(s.length, s.length + 8);
+                vm.meterTotal = ("00000000" + s).substring(s.length, s.length + 8);
+                s = String(Math.round(summaryData[0].WattHoursToday / 10));
+                vm.meterToday = ("00000000" + s).substring(s.length, s.length + 8);
+                s = String(Math.round(summaryData[0].WattHoursYesterday / 10));
+                vm.meterYesterday = ("00000000" + s).substring(s.length, s.length + 8);
+                
                 vm.powerGauge.getHighcharts().series[0].points[0].update(Math.floor(summaryData[0].UsageInWatt /* * 50 * Math.random() */));
             });
 
@@ -325,7 +331,7 @@
                 }
             }],
             size: {
-                height: 330
+                height: 290
             }
         };
             

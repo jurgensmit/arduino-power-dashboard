@@ -3,42 +3,88 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+        <meta name="viewport" content="width=device-width, initial-scale=0.9">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
         <link rel="stylesheet" href="style/app.css">
         <link href='//fonts.googleapis.com/css?family=Ubuntu+Mono:400,700' rel='stylesheet' type='text/css'>
+        <title>Power Dashboard</title>
     </head>
     <body>
-        <h1 class="title">Power Dashboard</h1>
+        <h1 class="title hidden-xs hidden-sm">Power Dashboard</h1>
         <div class="container" ng-controller="dashboardController as dashboard">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="meter-spacer visible-md visible-lg"></div>
-                    <div class="meter-gauge" ng-cloak>
-                        <span>{{ dashboard.meterValueAsString | digit:0 }}</span><!--
-                     --><span>{{ dashboard.meterValueAsString | digit:1 }}</span><!--
-                     --><span>{{ dashboard.meterValueAsString | digit:2 }}</span><!--
-                     --><span>{{ dashboard.meterValueAsString | digit:3 }}</span><!--
-                     --><span>{{ dashboard.meterValueAsString | digit:4 }}</span><!--
-                     --><span>{{ dashboard.meterValueAsString | digit:5 }}</span><!--
-                     --><span class="last-digit">{{ dashboard.meterValueAsString | digit:6 }}</span><!--
-                     --><span class="last-digit">{{ dashboard.meterValueAsString | digit:7 }}</span>
-                        <div class="meter-gauge-label">Kilowatt Hours</div>
+                    <highchart class="power-gauge" config="dashboard.powerGauge"></highchart>                
+                    <div class="chart-spacer visible-sm">
                     </div>
                 </div>
-                <div class="power-gauge col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <highchart config="dashboard.powerGauge"></highchart>                
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="row meter-spacer hidden-xs hidden-sm">
+                     </div>
+                    <div class="row">
+                        <div class="meter-gauge" ng-cloak>
+                            <span class="label-before">&nbsp;&nbsp;&nbsp;&nbsp;Total</span><!--
+                            --><span>{{ dashboard.meterTotal | digit:1 }}</span><!--
+                            --><span>{{ dashboard.meterTotal | digit:2 }}</span><!--
+                            --><span>{{ dashboard.meterTotal | digit:3 }}</span><!--
+                            --><span>{{ dashboard.meterTotal | digit:4 }}</span><!--
+                            --><span>{{ dashboard.meterTotal | digit:5 }}</span><!--
+                            --><span class="last-digit">{{ dashboard.meterTotal | digit:6 }}</span><!--
+                            --><span class="last-digit">{{ dashboard.meterTotal | digit:7 }}</span><!--
+                            --><span class="label-after">kWh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        </div>
+                    </div>
+                    <div class="row meter-spacer hidden-xs hidden-sm">
+                     </div>
+                    <div class="row hidden-xs">
+                        <div class="meter-gauge" ng-cloak>
+                            <span class="label-before">&nbsp;&nbsp;&nbsp;&nbsp;Today</span><!--
+                            --><span>{{ dashboard.meterToday | digit:1 }}</span><!--
+                            --><span>{{ dashboard.meterToday | digit:2 }}</span><!--
+                            --><span>{{ dashboard.meterToday | digit:3 }}</span><!--
+                            --><span>{{ dashboard.meterToday | digit:4 }}</span><!--
+                            --><span>{{ dashboard.meterToday | digit:5 }}</span><!--
+                            --><span class="last-digit">{{ dashboard.meterToday | digit:6 }}</span><!--
+                            --><span class="last-digit">{{ dashboard.meterToday | digit:7 }}</span><!--
+                            --><span class="label-after">kWh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        </div>
+                    </div>
+                    <div class="row meter-spacer hidden-xs hidden-sm">
+                     </div>
+                    <div class="row hidden-xs">
+                        <div class="meter-gauge" ng-cloak>
+                            <span class="label-before">Yesterday</span><!--
+                            --><span>{{ dashboard.meterYesterday | digit:1 }}</span><!--
+                            --><span>{{ dashboard.meterYesterday | digit:2 }}</span><!--
+                            --><span>{{ dashboard.meterYesterday | digit:3 }}</span><!--
+                            --><span>{{ dashboard.meterYesterday | digit:4 }}</span><!--
+                            --><span>{{ dashboard.meterYesterday | digit:5 }}</span><!--
+                            --><span class="last-digit">{{ dashboard.meterYesterday | digit:6 }}</span><!--
+                            --><span class="last-digit">{{ dashboard.meterYesterday | digit:7 }}</span><!--
+                            --><span class="label-after">kWh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-                <ul class="chart-selection-menu nav nav-pills">
-                    <li ng-class="{active:dashboard.isChartSelected('lastHour')}"><a href ng-click="dashboard.selectChart('lastHour')">Last Hour</a></li>
-                    <li ng-class="{active:dashboard.isChartSelected('last24Hours')}"><a href ng-click="dashboard.selectChart('last24Hours')">Last 24 Hours</a></li>
-                    <li ng-class="{active:dashboard.isChartSelected('last7Days')}"><a href ng-click="dashboard.selectChart('last7Days')">Last 7 Days</a></li>
-                    <li ng-class="{active:dashboard.isChartSelected('last30Days')}"><a href ng-click="dashboard.selectChart('last30Days')">Last 30 Days</a></li>
-                    <li ng-class="{active:dashboard.isChartSelected('last365Days')}"><a href ng-click="dashboard.selectChart('last365Days')">Last 365 Days</a></li>
-                </ul>
-                <highchart config="dashboard.last24HourChart"></highchart>                
+            <div class="row chart-spacer hidden-xs">
+            </div>
+            <div class="row hidden-xs hidden-sm">
+                &nbsp;
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="centered-pills">
+                        <ul class="chart-selection-menu nav nav-pills">
+                            <li ng-class="{active:dashboard.isChartSelected('lastHour')}"><a href ng-click="dashboard.selectChart('lastHour')">Hour</a></li>
+                            <li ng-class="{active:dashboard.isChartSelected('last24Hours')}"><a href ng-click="dashboard.selectChart('last24Hours')">24 Hours</a></li>
+                            <li ng-class="{active:dashboard.isChartSelected('last7Days')}"><a href ng-click="dashboard.selectChart('last7Days')">7 Days</a></li>
+                            <li ng-class="{active:dashboard.isChartSelected('last30Days')}"><a href ng-click="dashboard.selectChart('last30Days')">30 Days</a></li>
+                            <li ng-class="{active:dashboard.isChartSelected('last365Days')}"><a href ng-click="dashboard.selectChart('last365Days')">365 Days</a></li>
+                        </ul>
+                    </div>
+                    <highchart config="dashboard.last24HourChart"></highchart>
+                </div>                
             </div>
         </div>
         <script src="//cdn.socket.io/socket.io-1.3.5.js"></script>
