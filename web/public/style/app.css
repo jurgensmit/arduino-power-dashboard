@@ -2,9 +2,6 @@ body {
 	background-color:lightgray;
 	background-color:white;
     font-family: 'Ubuntu Mono', Monaco, monospace;    
-/*
-    min-width: 400px;
-*/
 }
 
 h1.title {
@@ -81,13 +78,6 @@ h1.title {
     text-align: center;   
 }
 
-.nav-pills {
-/*
-    display: flex;
-    justify-content: center;
-*/
-}
-
 .nav-tabs>li>a, .nav-pills>li>a {
     padding-right: 6px;
     padding-left: 6px;
@@ -129,4 +119,3 @@ h1.title {
 #toast-container > .toast-info {
   background-color: cornflowerblue !important;
 }
-

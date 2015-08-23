@@ -5,3 +5,10 @@ node_modules/
 typings
 Code
 npm-debug.log
+.pioenvs/
+.sconsign.dblite
+lib/
+src/
+.settings
+dist/
+web/public/debug.html

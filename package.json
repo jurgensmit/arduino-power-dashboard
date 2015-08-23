@@ -1,0 +1,38 @@
+{
+  "name": "arduino-power-dashboard",
+  "version": "1.0.0",
+  "description": "Track the power usage at my home",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jurgensmit/arduino-power-dashboard.git"
+  },
+  "author": "Jurgen Smit <jurgen.smit@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jurgensmit/arduino-power-dashboard/issues"
+  },
+  "homepage": "http://power-dashboard.azurewebsites.net/",
+  "devDependencies": {
+    "browser-sync": "^2.8.2",
+    "gulp": "^3.9.0",
+    "gulp-git": "^1.2.4",
+    "gulp-git-deploy": "^1.5.2",
+    "gulp-if": "^1.2.5",
+    "gulp-jscs": "^1.6.0",
+    "gulp-jshint": "^1.11.0",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-nodemon": "^2.0.3",
+    "gulp-plumber": "^1.0.1",
+    "gulp-print": "^1.1.0",
+    "gulp-sftp": "^0.1.4",
+    "gulp-shell": "^0.4.2",
+    "gulp-util": "^3.0.5",
+    "jshint-stylish": "^2.0.0",
+    "nodemon": "^1.4.1",
+    "yargs": "^3.10.0"
+  }
+}

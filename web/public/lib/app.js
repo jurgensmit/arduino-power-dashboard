@@ -1,106 +1,114 @@
+/* global angular */
+/* global io */
 /* global Highcharts */
 /* global toastr */
+/* jshint -W040 */
 (function () {
-    "use strict";
+    'use strict';
 
-    var dashboardApp = angular.module("dashboardApp", ["highcharts-ng"]);
+    var dashboardApp = angular.module('dashboardApp', ['highcharts-ng']);
 
-    dashboardApp.controller("dashboardController", ["$scope", "socket", "powerGaugeConfig", "barChartConfig", 
+    dashboardApp.controller('dashboardController',
+        ['$scope', 'socket', 'powerGaugeConfig', 'barChartConfig',
+
         function ($scope, socket, powerGaugeConfig, barChartConfig) {
             var vm = this;
-    
-            vm.meterTotal = vm.meterToday = vm.meterYesterday = "00000000";
-            vm.activeChart = "last24Hours";
-            
+
+            vm.meterTotal = vm.meterToday = vm.meterYesterday = '00000000';
+            vm.activeChart = 'last24Hours';
+
             function zeroPad(num, places) {
                 var zero = places - num.toString().length + 1;
-                return Array(+(zero > 0 && zero)).join("0") + num;
+                return new Array(+(zero > 0 && zero)).join('0') + num;
             }
-    
+
             function createChartSeries(data) {
                 var seriesData = [];
                 data.forEach(function (dataRow) {
                     var dateTimeInterval = new Date(dataRow.DateTimeInterval);
-                    seriesData.push({ x: dateTimeInterval, y: dataRow.WattHour });
+                    seriesData.push({x: dateTimeInterval, y: dataRow.WattHour});
                 }, this);
                 return seriesData;
             }
-            
+
             function showMessage(message) {
                 console.log(message);
                 toastr.info(message);
             }
-            
+
             vm.isChartSelected = function (chart) {
                 return chart === vm.activeChart;
             };
-            
+
             vm.selectChart = function (chart) {
                 vm.activeChart = chart;
                 vm.last24HourChart.getHighcharts().series[0].setData(vm.lastData[chart]);
             };
 
-            socket.on("summary", function (summaryData) {
-                showMessage("Summary data received");
+            socket.on('summary', function (summaryData) {
+                showMessage('Summary data received');
 
                 var s = String(Math.round(summaryData[0].CalculatedMeterValue * 100));
-                vm.meterTotal = ("00000000" + s).substring(s.length, s.length + 8);
+                vm.meterTotal = ('00000000' + s).substring(s.length, s.length + 8);
                 s = String(Math.round(summaryData[0].WattHoursToday / 10));
-                vm.meterToday = ("00000000" + s).substring(s.length, s.length + 8);
+                vm.meterToday = ('00000000' + s).substring(s.length, s.length + 8);
                 s = String(Math.round(summaryData[0].WattHoursYesterday / 10));
-                vm.meterYesterday = ("00000000" + s).substring(s.length, s.length + 8);
-                
-                vm.powerGauge.getHighcharts().series[0].points[0].update(Math.floor(summaryData[0].UsageInWatt /* * 50 * Math.random() */));
+                vm.meterYesterday = ('00000000' + s).substring(s.length, s.length + 8);
+
+                vm.powerGauge.getHighcharts().series[0].points[0].
+                    update(Math.floor(summaryData[0].UsageInWatt /* * 50 * Math.random() */));
+
+                vm.lastData.summaryData = summaryData[0];
             });
 
             vm.lastData = {};
 
-            socket.on("last24Hours", function (data) {
-                showMessage("Data last 24 hours received");
+            socket.on('last24Hours', function (data) {
+                showMessage('Data last 24 hours received');
 
                 var newChartSeries = createChartSeries(data);
                 vm.lastData.last24Hours = newChartSeries;
-                if(vm.activeChart === "last24Hours") {
+                if (vm.activeChart === 'last24Hours') {
                     vm.last24HourChart.getHighcharts().series[0].setData(newChartSeries);
                 }
             });
-    
-            socket.on("lastHour", function (data) {
-                showMessage("Data last hour received");
+
+            socket.on('lastHour', function (data) {
+                showMessage('Data last hour received');
 
                 var newChartSeries = createChartSeries(data);
                 vm.lastData.lastHour = newChartSeries;
-                if(vm.activeChart === "lastHour") {
+                if (vm.activeChart === 'lastHour') {
                     vm.last24HourChart.getHighcharts().series[0].setData(newChartSeries);
                 }
             });
-            
-            socket.on("last7Days", function (data) {
-                showMessage("Data last 7 days received");
+
+            socket.on('last7Days', function (data) {
+                showMessage('Data last 7 days received');
 
                 var newChartSeries = createChartSeries(data);
                 vm.lastData.last7Days = newChartSeries;
-                if(vm.activeChart === "last7Days") {
+                if (vm.activeChart === 'last7Days') {
                     vm.last24HourChart.getHighcharts().series[0].setData(newChartSeries);
                 }
             });
 
-            socket.on("last30Days", function (data) {
-                showMessage("Data last 30 days received");
+            socket.on('last30Days', function (data) {
+                showMessage('Data last 30 days received');
 
                 var newChartSeries = createChartSeries(data);
                 vm.lastData.last30Days = newChartSeries;
-                if(vm.activeChart === "last30Days") {
+                if (vm.activeChart === 'last30Days') {
                     vm.last24HourChart.getHighcharts().series[0].setData(newChartSeries);
                 }
             });
 
-            socket.on("last365Days", function (data) {
-                showMessage("Data last 365 days received");
+            socket.on('last365Days', function (data) {
+                showMessage('Data last 365 days received');
 
                 var newChartSeries = createChartSeries(data);
                 vm.lastData.last365Days = newChartSeries;
-                if(vm.activeChart === "last365Days") {
+                if (vm.activeChart === 'last365Days') {
                     vm.last24HourChart.getHighcharts().series[0].setData(newChartSeries);
                 }
             });
@@ -109,7 +117,7 @@
             vm.last24HourChart = barChartConfig;
         }
     ]);
-    
+
     dashboardApp.factory('socket', function ($rootScope) {
         var socket = io.connect();
         return {
@@ -133,7 +141,7 @@
             }
         };
     });
-    
+
     dashboardApp.factory('powerGaugeConfig', function () {
         var powerGaugeConfig = {
             options: {
@@ -144,24 +152,24 @@
                         duration: 750
                     }
                 },
-                
+
                 style: {
                 },
- 
+
                 tooltip: {
                     enabled: false
                 },
-                
+
                 credits: false,
-                
+
                 exporting: {
                     enabled: false
                 },
-        
+
                 title: {
                     text: null
                 },
-                
+
                 plotOptions: {
                     gauge: {
                         dial: {
@@ -181,21 +189,18 @@
                         borderWidth: 0,
                         backgroundColor: 'transparent'
                     }],
-                    size: "90%"
+                    size: '90%'
                 },
-        
                 // the value axis
                 yAxis: {
                     type: 'logarithmic',
                     min: 10,
                     max: 10000,
-        
                     minorTickInterval: 'auto',
                     minorTickWidth: 1,
                     minorTickLength: 19,
                     minorTickPosition: 'outside',
                     minorTickColor: 'gray',
-        
                     tickPixelInterval: 100,
                     tickWidth: 1,
                     tickPosition: 'outside',
@@ -218,7 +223,6 @@
                             color: 'gray'
                         },
                         x: -2
-                        
                     },
                     plotBands: [{
                         from: 10,
@@ -252,9 +256,9 @@
             series: [{
                 type: 'gauge',
                 name: 'Power',
-                data: [ 10 ],
+                data: [10],
                 tooltip: null,
-                align: "center",
+                align: 'center',
                 dataLabels: {
                     enabled: true,
                     borderWidth: 0,
@@ -264,7 +268,7 @@
                         fontFamily: 'Ubuntu Mono',
                         fontWeight: 'normal',
                         fontSize: '22px',
-                        textShadow: "none"
+                        textShadow: 'none'
                     },
                     x: 0,
                     color: 'gray'
@@ -277,12 +281,12 @@
                 height: 360
             }
         };
-        
+
         return powerGaugeConfig;
     });
 
     dashboardApp.factory('barChartConfig', function () {
-        
+
         Highcharts.setOptions({
             global: {
                 useUTC: false
@@ -315,7 +319,8 @@
                 },
                 tooltip: {
                     formatter: function () {
-                        return Highcharts.dateFormat('%Y-%m-%d %H:%M', this.x) + '<br/><b>' + this.y + ' Watt</b>';
+                        return Highcharts.dateFormat('%A<br/>%Y-%m-%d %H:%M', this.x) +
+                                '<br/><b>' + this.y + ' Watt</b>';
                     },
                     shared: true,
                     useHTML: false,
@@ -339,22 +344,22 @@
                 height: 290
             }
         };
-            
+
         return barChartConfig;
     });
 
     dashboardApp.filter('digit', function () {
         return function (input, digit) {
-            if (input != undefined) {
+            if (input !== undefined) {
                 return input.substring(digit, digit + 1);
             }
             else {
-                return "";
+                return '';
             }
-        }
+        };
     });
 
     toastr.options = {
-        "positionClass": "toast-bottom-right"
+        'positionClass': 'toast-bottom-right'
     };
 } ());
