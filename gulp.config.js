@@ -1,35 +1,31 @@
 module.exports = function () {
 
-    var productionweb = '../arduino-power-dashboard-production/';
+    var productionweb = './dist/';
 
     var config = {
+
+        productionweb: productionweb,
 
         // all javascript files
         alljs: [
             './*.js',
             './web/public/*.js',
             './web/public/lib/app.js',
-            './web/*.js',
+            './web/*.js'
         ],
 
         // all web server files
         allwebserverfiles: [
-            'web/*.*',
+            'web/**/*.*',
             '!web/confidential.js',
-            'web/public/**/*'
+            '!web/typings/**/*.*',
+            '!web/node_modules/**/*.*'
         ],
 
         // all production web server files that should not bedeleted or touched
         staticproductionfiles: [
             productionweb + 'confidential.js'
         ],
-
-        // sftp options
-        sftpOptions: {
-            host: '192.168.178.35',
-            remotePath: '/root/',
-            auth: 'keyMain'
-        },
 
         // node settings
         defaultPort: 5000,

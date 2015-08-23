@@ -33,7 +33,7 @@ gulp.task('deploy-web', ['analyze-code'], function() {
         .src(config.allwebserverfiles)
         .pipe($.plumber())
         .pipe($.if(args.verbose, $.print()))
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest(config.productionweb));
 });
 
 /*
